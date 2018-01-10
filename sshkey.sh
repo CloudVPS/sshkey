@@ -16,6 +16,7 @@ SSHFOLDER=~/.ssh/
 AUTHORIZEDKEYS=authorized_keys
 #tag we put after the key
 CLOUDVPSKEYNAME=CloudVPS-key
+LOGGEDINUSER=$(whoami)
 
 #function to check if key is allready there (i like functions)
 
@@ -33,4 +34,5 @@ if [ ! -d "$SSHFOLDER" ]; then
 	mkdir $SSHFOLDER
 fi
 
-curl -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
+curl -s -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
+echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
