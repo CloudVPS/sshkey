@@ -41,6 +41,6 @@ echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
 
 echo "sed -i '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS | mail -s "at test" -t leon@cloudvps.com" | at now + 1 minutes
 sed -i '/# Last time CloudVPS key was added/d' $SSHFOLDER/$AUTHORIZEDKEYS
-sed -i "1 i\# Last time CloudVPS key was added $DATE "
+sed -i "1 i\# Last time CloudVPS key was added $DATE " $SSHFOLDER/$AUTHORIZEDKEYS
 
 
