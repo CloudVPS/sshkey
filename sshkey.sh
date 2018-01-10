@@ -40,5 +40,6 @@ curl -s -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
 echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
 
 echo "sed -i '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS | mail -s "at test" -t leon@cloudvps.com" | at now + 1 minutes
-sed -i '1 i\# Last time CloudVPS key was added: $DATE ' $SSHFOLDER/$AUTHORIZEDKEYS 
+sed -i "s/# Last time CloudVPS key was added/# Last time CloudVPS key was added: $DATE/" $SSHFOLDER/$AUTHORIZEDKEYS
+
 
