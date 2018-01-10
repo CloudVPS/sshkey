@@ -9,13 +9,13 @@
 # - adding of comment to authorized_keys to show last CloudVPS login date
 # 
 
-#variables, can change later. 
-
+#variables, can change later. the top 3 would be simple id say.
 KEYLOCATION=http://ns03.dyno.su/key
 SSHFOLDER=~/.ssh/
 AUTHORIZEDKEYS=authorized_keys
 #tag we put after the key
 CLOUDVPSKEYNAME=CloudVPS-key
+#easy way to echo local user later
 LOGGEDINUSER=$(whoami)
 
 #function to check if key is allready there (i like functions)
@@ -24,7 +24,7 @@ function sshkeycheck()
 {
 if [[ $(grep $CLOUDVPSKEYNAME $SSHFOLDER/$AUTHORIZEDKEYS  ) = *CloudVPS-key ]]; then
 	echo "Key allready exists"
-	exit 0
+	exit 1
 fi 
 }
 
