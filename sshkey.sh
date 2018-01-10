@@ -32,6 +32,4 @@ if [ ! -d "$SSHFOLDER" ]; then
 	mkdir $SSHFOLDER
 fi
 
-if 
-
 curl -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
