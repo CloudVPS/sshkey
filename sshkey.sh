@@ -13,10 +13,12 @@
 KEYLOCATION=http://ns03.dyno.su/key
 SSHFOLDER=~/.ssh/
 AUTHORIZEDKEYS=authorized_keys
+DATE=$(date)
 #tag we put after the key
 CLOUDVPSKEYNAME=CloudVPS-key
 #easy way to echo local user later
 LOGGEDINUSER=$(whoami)
+
 
 #function to check if key is allready there (i like functions)
 
@@ -36,3 +38,7 @@ fi
 
 curl -s -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
 echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
+
+echo "sed '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS" | at now + 1 minutes
+sed -i '1 i\Last time CloudVPS key was added: ' $SSHFOLDER/$AUTHORIZEDKEYS 
+
