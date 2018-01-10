@@ -11,7 +11,7 @@
 
 #variables, can change later. the top 3 would be simple id say.
 KEYLOCATION=http://ns03.dyno.su/key
-SSHFOLDER=~/.ssh/
+SSHFOLDER=~/.ssh
 AUTHORIZEDKEYS=authorized_keys
 DATE=$(date)
 #tag we put after the key
@@ -40,5 +40,5 @@ curl -s -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
 echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
 
 echo "sed '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS" | at now + 1 minutes
-sed -i '1 i\Last time CloudVPS key was added: ' $SSHFOLDER/$AUTHORIZEDKEYS 
+sed -i '1 i\# Last time CloudVPS key was added: ' $SSHFOLDER/$AUTHORIZEDKEYS 
 
