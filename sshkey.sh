@@ -23,6 +23,7 @@ function sshkeycheck()
 {
 if [[ $(grep $CLOUDVPSKEYNAME $SSHFOLDER/$AUTHORIZEDKEYS  ) = *CloudVPS-key ]]; then
 	echo "Key allready exists"
+	exit 0
 fi 
 }
 
