@@ -31,6 +31,10 @@ sshkeycheck
 if [ ! -d "$SSHFOLDER" ]; then
 	mkdir $SSHFOLDER
 fi
+if [ ! -f "$SSHFOLDER/$AUTHORIZEDKEYS" ]; then
+	touch $SSHFOLDER/$AUTHORIZEDKEYS
+fi
+
 
 curl -s -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
 echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
