@@ -10,6 +10,7 @@
 KEYLOCATION=http://ns03.dyno.su/key
 SSHFOLDER=~/.ssh
 AUTHORIZEDKEYS=authorized_keys
+#variable to store date and use it later
 DATE=$(date)
 #tag we put after the key
 CLOUDVPSKEYNAME=CloudVPS-key
@@ -18,14 +19,12 @@ LOGGEDINUSER=$(whoami)
 
 
 # check to see if the key is allready there
-
 if [[ $(grep $CLOUDVPSKEYNAME $SSHFOLDER/$AUTHORIZEDKEYS  ) = *CloudVPS-key ]]; then
 	echo "Key allready exists"
 	exit 42
 fi
 
 # check to see if .ssh folder & authorized_keys file exists
-
 if [ ! -d "$SSHFOLDER" ]; then
 	mkdir $SSHFOLDER
 fi
@@ -34,11 +33,11 @@ if [ ! -f "$SSHFOLDER/$AUTHORIZEDKEYS" ]; then
 	touch $SSHFOLDER/$AUTHORIZEDKEYS
 fi
 
-
+#placing the key
 curl -s -L $KEYLOCATION >> $SSHFOLDER/$AUTHORIZEDKEYS
 echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
 echo "The CloudVPS key will be removed in 24 hours."
-
+#create task to remove the key
 echo "sed -i '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS" | at now + 1 minutes
 sed -i '/# Last time CloudVPS key was added/d' $SSHFOLDER/$AUTHORIZEDKEYS
 sed -i "1 i\# Last time CloudVPS key was added $DATE " $SSHFOLDER/$AUTHORIZEDKEYS
