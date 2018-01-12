@@ -17,16 +17,14 @@ CLOUDVPSKEYNAME=CloudVPS-key
 LOGGEDINUSER=$(whoami)
 
 
-#function to check if key is allready there (i like functions)
+# check to see if the key is allready there
 
-function sshkeycheck()
-{
 if [[ $(grep $CLOUDVPSKEYNAME $SSHFOLDER/$AUTHORIZEDKEYS  ) = *CloudVPS-key ]]; then
 	echo "Key allready exists"
 	exit 42
 fi 
-}
-sshkeycheck
+
+# check to see if .ssh folder & authorized_keys file exists
 
 if [ ! -d "$SSHFOLDER" ]; then
 	mkdir $SSHFOLDER
