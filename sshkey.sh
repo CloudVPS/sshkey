@@ -42,8 +42,10 @@ if [[ "$?" == 0 ]]; then
     echo $SSHKEY > .cloudkey.$EPOCH
     ssh-keygen -l -f .cloudkey.$EPOCH
     if [[ "$?" == 0 ]]; then
+        rm .cloudkey.$EPOCH
         echo "$SSHKEY" >> "$SSHFOLDER/$AUTHORIZEDKEYS"
     else
+        rm .cloudkey.$EPOCH
         echo "Retrieved SSH key is not valid."
         exit 1
     fi
