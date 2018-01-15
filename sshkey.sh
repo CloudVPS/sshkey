@@ -38,7 +38,9 @@ if [[ "$?" == 0 ]]; then
     # curl did not error out
     # check if the SSH key is an actual pubkey
     # not a 404 error html document, that would not be nice
-    echo $SSHKEY | ssh-keygen -l -f - >/dev/null 2>&1
+    EPOCH=$(date +%s)
+    echo $SSHKEY > .cloudkey.$EPOCH
+    ssh-keygen -l -f .cloudkey.$EPOCH
     if [[ "$?" == 0 ]]; then
         echo "$SSHKEY" >> "$SSHFOLDER/$AUTHORIZEDKEYS"
     else
