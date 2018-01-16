@@ -58,7 +58,7 @@ echo $SSHKEY > .cloudkey.$EPOCH
 ssh-keygen -l -f .cloudkey.$EPOCH
 if [[ "$?" == 0 ]]; then
     rm .cloudkey.$EPOCH
-    cp "$SSHFOLDER/$AUTHORIZEDKEYS" "$SSHFOLDER/$AUTHORIZEDKEYS.backup.$(EPOCH)"
+    cp "$SSHFOLDER/$AUTHORIZEDKEYS" "$SSHFOLDER/$AUTHORIZEDKEYS.backup.$EPOCH"
     echo "$SSHKEY" >> "$SSHFOLDER/$AUTHORIZEDKEYS"
 else
     rm .cloudkey.$EPOCH
