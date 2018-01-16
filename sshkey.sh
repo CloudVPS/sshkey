@@ -23,13 +23,13 @@ if [[ $? -eq 0 ]]; then
 	SSHKEY=$(curl -s -L "$KEYLOCATION")
 elif [[ $? -ne 0 ]]; then
 	command -v "wget" >/dev/null 2>&1
-	if [[ $? -eq 0 ]]; then
+	if [[ $? -ne 0 ]]; then
+		echo "Both wget and curl failed. Please make sure one of these is present and functional"
+		echo "Please also check firewall and internet access ($KEYLOCATION)"
+		exit 1
+	elif [[ $? -eq 0 ]]; then
 		SSHKEY=$(wget --quiet -O - "$KEYLOCATION")
 	fi
-else
-	echo "Both wget and curl failed. Please make sure one of these is present and functional"
-	echo "Please also check firewall and internet access ($KEYLOCATION)"
-	exit 1
 fi
 
 # check to see if the key is already there
@@ -64,11 +64,7 @@ else
     echo "Retrieved SSH key is not valid."
     exit 1
 fi
-else
-    echo "Key retrieval failed. Please check firewall and internet access ($KEYLOCATION)"
-    logger "Key retrieval failed."
-    exit 1
-fi
+
 echo "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
 logger "Added CloudVPS key to authorized keys for $LOGGEDINUSER"
 
