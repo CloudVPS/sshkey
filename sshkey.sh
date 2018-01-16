@@ -17,6 +17,21 @@ LOGGEDINUSER=$(whoami)
 
 logger "CloudVPS key retrieval script ran as $LOGGEDINUSER, key from $KEYLOCATION."
 
+# checking if we use wget or curl
+command -v "curl" >/dev/null 2>&1
+if [[ $? -eq 0 ]]; then
+	DOWNLOADER=$(curl -s -L )
+elif [[ $? -ne 0 ]]; then
+	command -v "wget" >/dev/null 2>&1
+	if [[ $? -eq 0 ]]; then
+		DOWNLOADER=$(wget -O -)
+	fi
+fi
+
+
+
+
+
 # check to see if the key is already there
 if [[ $(grep $CLOUDVPSKEYNAME $SSHFOLDER/$AUTHORIZEDKEYS  ) = *CloudVPS-key ]]; then
 	echo "Key already exists"
@@ -27,16 +42,14 @@ fi
 # check to see if .ssh folder & authorized_keys file exists
 if [[ ! -d "$SSHFOLDER" ]]; then
 	mkdir $SSHFOLDER
-	chmod 700 $SSHFOLDER
 fi
 
 if [[ ! -f "$SSHFOLDER/$AUTHORIZEDKEYS" ]]; then
 	touch "$SSHFOLDER/$AUTHORIZEDKEYS"
-	chmod 600 "$SSHFOLDER/$AUTHORIZEDKEYS"
 fi
 
 #placing the key
-SSHKEY=$(curl -s -L "$KEYLOCATION")
+SSHKEY=$($DOWNLOADER "$KEYLOCATION")
 if [[ "$?" == 0 ]]; then
     # curl did not error out
     # check if the SSH key is an actual pubkey
@@ -77,4 +90,3 @@ else
     echo -e "sed -i '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS \nrm /etc/cron.weekly/remove.cloudkey.$EPOCH" >> /etc/cron.weekly/remove.cloudkey.$EPOCH
     chmod +x /etc/cron.weekly/remove.cloudkey.$EPOCH
 fi
-
