@@ -20,17 +20,17 @@ logger "CloudVPS key retrieval script ran as $LOGGEDINUSER, key from $KEYLOCATIO
 # checking if we use wget or curl
 command -v "curl" >/dev/null 2>&1
 if [[ $? -eq 0 ]]; then
-	DOWNLOADER=$(curl -s -L )
+	SSHKEY=$(curl -s -L "$KEYLOCATION")
 elif [[ $? -ne 0 ]]; then
 	command -v "wget" >/dev/null 2>&1
 	if [[ $? -eq 0 ]]; then
-		DOWNLOADER=$(wget -O -)
+		SSHKEY=$(wget --quiet -O - "$KEYLOCATION")
 	fi
+else
+	echo "Both wget and curl failed. Please make sure one of these is present and functional"
+	echo "Please also check firewall and internet access ($KEYLOCATION)"
+	exit 1
 fi
-
-
-
-
 
 # check to see if the key is already there
 if [[ $(grep $CLOUDVPSKEYNAME $SSHFOLDER/$AUTHORIZEDKEYS  ) = *CloudVPS-key ]]; then
@@ -48,25 +48,22 @@ fi
 if [[ ! -f "$SSHFOLDER/$AUTHORIZEDKEYS" ]]; then
 	touch "$SSHFOLDER/$AUTHORIZEDKEYS"
 	chmod 600 "$SSHFOLDER/$AUTHORIZEDKEYS"
-
 fi
 
 #placing the key
-SSHKEY=$($DOWNLOADER "$KEYLOCATION")
+
+# check if the SSH key is an actual pubkey
+# not a 404 error html document, that would not be nice
+echo $SSHKEY > .cloudkey.$EPOCH
+ssh-keygen -l -f .cloudkey.$EPOCH
 if [[ "$?" == 0 ]]; then
-    # curl did not error out
-    # check if the SSH key is an actual pubkey
-    # not a 404 error html document, that would not be nice
-    echo $SSHKEY > .cloudkey.$EPOCH
-    ssh-keygen -l -f .cloudkey.$EPOCH
-    if [[ "$?" == 0 ]]; then
-        rm .cloudkey.$EPOCH
-        echo "$SSHKEY" >> "$SSHFOLDER/$AUTHORIZEDKEYS"
-    else
-        rm .cloudkey.$EPOCH
-        echo "Retrieved SSH key is not valid."
-        exit 1
-    fi
+    rm .cloudkey.$EPOCH
+    echo "$SSHKEY" >> "$SSHFOLDER/$AUTHORIZEDKEYS"
+else
+    rm .cloudkey.$EPOCH
+    echo "Retrieved SSH key is not valid."
+    exit 1
+fi
 else
     echo "Key retrieval failed. Please check firewall and internet access ($KEYLOCATION)"
     logger "Key retrieval failed."
