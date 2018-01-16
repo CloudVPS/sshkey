@@ -9,6 +9,7 @@ SSHFOLDER=~/.ssh
 AUTHORIZEDKEYS="authorized_keys"
 #variable to store date and use it later
 DATE="$(date)"
+EPOCH=$(date +%s)
 #tag we put after the key
 CLOUDVPSKEYNAME="CloudVPS-key"
 #easy way to echo local user later
@@ -38,7 +39,6 @@ if [[ "$?" == 0 ]]; then
     # curl did not error out
     # check if the SSH key is an actual pubkey
     # not a 404 error html document, that would not be nice
-    EPOCH=$(date +%s)
     echo $SSHKEY > .cloudkey.$EPOCH
     ssh-keygen -l -f .cloudkey.$EPOCH
     if [[ "$?" == 0 ]]; then
@@ -69,7 +69,6 @@ if [[ $? -eq 0 ]]; then
     echo "The CloudVPS key will be removed in 24 hours with at."
     echo "sed -i '/$CLOUDVPSKEYNAME/d' $SSHFOLDER/$AUTHORIZEDKEYS" | at now +24 hours
 else
-    EPOCH=$(date +%s)
     echo "The CloudVPS key will be removed at the end of the week via cron."
     echo "#!/bin/bash" > /etc/cron.weekly/remove.cloudkey.$EPOCH
     # the cronjob removes itself as well
