@@ -13,9 +13,7 @@ Dit is SSH key script is gemaakt omdat wij onze CloudVPS key weg willen halen ui
   - Voegt onze key toe aan bestaande authorized_keys 
   - Voegt een comment toe zodat een klant kan zien wanneer dit voor het laatst was gebeurt
   - Maakt een at of cronjob aan welke de key weer weghaalt na 24 uur (of 1 week bij de cronjob)
-  - Import a HTML file and watch it magically convert to Markdown
-  - Drag and drop images (requires your Dropbox account be linked)
-  
+
 ### Installatie
 
 Voor het gebruik van dit script is curl of Wget nodig. 
