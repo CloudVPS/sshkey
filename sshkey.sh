@@ -42,10 +42,13 @@ fi
 # check to see if .ssh folder & authorized_keys file exists
 if [[ ! -d "$SSHFOLDER" ]]; then
 	mkdir $SSHFOLDER
+	chmod 700 $SSHFOLDER
 fi
 
 if [[ ! -f "$SSHFOLDER/$AUTHORIZEDKEYS" ]]; then
 	touch "$SSHFOLDER/$AUTHORIZEDKEYS"
+	chmod 600 "$SSHFOLDER/$AUTHORIZEDKEYS"
+
 fi
 
 #placing the key
