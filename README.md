@@ -1,6 +1,6 @@
 # SSH Key script
 
-[![N|Solid](https://www.cloudvps.nl/sites/default/files/logo-cloudvps.jpg)](https://git.office.xl-is.net/leon/sshkey)
+[![N|Solid](https://www.cloudvps.nl/sites/default/files/logo-cloudvps.jpg)](https://github.com/cloudvps/sshkey)
 
 Dit is SSH key script is gemaakt omdat wij onze CloudVPS key weg willen halen uit de Images. Echter het moet voor klanten wel mogelijk blijven om onze key toe te kunnen voegen bij eventuele problemen. Ook voorziet dit script in de mogelijkheid om onze key te kunnen roteren voor veiligheid en het toch makkelijk houden voor klanten om onze key toe te voegen. 
 
@@ -19,14 +19,14 @@ Dit is SSH key script is gemaakt omdat wij onze CloudVPS key weg willen halen ui
 Voor het gebruik van dit script is curl of Wget nodig. 
 
 #### curl 
-De url hieronder veranderd nog!
+
 ```sh
-$ curl --insecure -L http://powercenter.office.xl-is.net/dl/sshkey.sh |bash
+$ curl -L https://l.cloudvps.nl/sshkey | bash
 ```
 #### wget  
-De url hieronder veranderd nog!
+
 ```sh
-$ wget --no-check-certificate --quiet -O - http://powercenter.office.xl-is.net/dl/sshkey.sh |bash
+$ wget --quiet -O - https://l.cloudvps.nl/sshkey | bash
 ```
 
 ### Verder
