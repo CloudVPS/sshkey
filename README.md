@@ -21,7 +21,7 @@ Voor het gebruik van dit script is curl of Wget nodig.
 #### curl 
 
 ```sh
-$ curl -L https://l.cloudvps.nl/sshkey | bash
+$ curl -s -L https://l.cloudvps.nl/sshkey | bash
 ```
 #### wget  
 
