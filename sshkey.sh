@@ -23,12 +23,12 @@ if [[ $? -eq 0 ]]; then
 	SSHKEY=$(curl -s -L "$KEYLOCATION")
 elif [[ $? -ne 0 ]]; then
 	command -v "wget" >/dev/null 2>&1
-	if [[ $? -ne 0 ]]; then
+	if [[ $? -eq 0 ]]; then
+		SSHKEY=$(wget --quiet -O - "$KEYLOCATION")
+	elif [[ $? -ne 0 ]]; then
 		echo "Both wget and curl failed. Please make sure one of these is present and functional"
 		echo "Please also check firewall and internet access ($KEYLOCATION)"
 		exit 1
-	elif [[ $? -eq 0 ]]; then
-		SSHKEY=$(wget --quiet -O - "$KEYLOCATION")
 	fi
 fi
 
